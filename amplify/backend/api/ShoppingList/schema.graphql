@@ -1,0 +1,17 @@
+type ShoppingList @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  total: Float
+  store: String
+  date: AWSDate
+  name: String
+  shoppinglistitems: [ShoppingListItem] @manyToMany(relationName: "ShoppingListItemShoppingList")
+}
+
+type ShoppingListItem @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  price: Float
+  quanity: Int
+  shoppinglistID: ID @index(name: "byShoppingList")
+  ShoppingLists: [ShoppingList] @manyToMany(relationName: "ShoppingListItemShoppingList")
+}

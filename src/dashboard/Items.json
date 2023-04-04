@@ -1,20 +1,44 @@
 [
   {
     "id": "1",
-    "name": "Big Mac",
+    "name": "Egg Carton",
     "price": 9.99,
-    "quantity": 2
+    "quantity": 1
   },
   {
     "id": "2",
-    "name": "Chicken Nuggets",
+    "name": "Whole Milk",
     "price": 6.99,
     "quantity": 1
   },
   {
     "id": "3",
-    "name": "Big Tasty",
-    "price": 15.99,
-    "quantity": 3
+    "name": "Potato bread",
+    "price": 10.99,
+    "quantity": 1
+  },
+  {
+    "id": "4",
+    "name": "Whole wheat bread",
+    "price": 10.99,
+    "quantity": 1
+  },
+  {
+    "id": "5",
+    "name": "Sugar",
+    "price": 8.99,
+    "quantity": 1
+  },
+  {
+    "id": "6",
+    "name": "Brown Sugar",
+    "price": 7.99,
+    "quantity": 1
+  },
+  {
+    "id": "7",
+    "name": "Seasoned Salt",
+    "price": 17.99,
+    "quantity": 1
   }
 ]
