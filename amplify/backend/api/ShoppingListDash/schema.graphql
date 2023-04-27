@@ -1,0 +1,17 @@
+type ShoppingListItem @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  price: Float
+  quanity: Int
+  shoppinglistID: ID @index(name: "byShoppingList")
+}
+
+type ShoppingList @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  store: String
+  total: Float
+  date: AWSDate
+  ShoppingListItems: [ShoppingListItem] @hasMany(indexName: "byShoppingList", fields: ["id"])
+}
+ 

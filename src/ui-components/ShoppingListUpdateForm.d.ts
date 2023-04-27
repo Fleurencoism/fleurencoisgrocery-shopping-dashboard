@@ -14,24 +14,24 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ShoppingListUpdateFormInputValues = {
-    total?: number;
-    store?: string;
-    date?: string;
     name?: string;
+    store?: string;
+    total?: number;
+    date?: string;
 };
 export declare type ShoppingListUpdateFormValidationValues = {
-    total?: ValidationFunction<number>;
-    store?: ValidationFunction<string>;
-    date?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
+    store?: ValidationFunction<string>;
+    total?: ValidationFunction<number>;
+    date?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ShoppingListUpdateFormOverridesProps = {
     ShoppingListUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    total?: PrimitiveOverrideProps<TextFieldProps>;
-    store?: PrimitiveOverrideProps<TextFieldProps>;
-    date?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
+    store?: PrimitiveOverrideProps<TextFieldProps>;
+    total?: PrimitiveOverrideProps<TextFieldProps>;
+    date?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ShoppingListUpdateFormProps = React.PropsWithChildren<{
     overrides?: ShoppingListUpdateFormOverridesProps | undefined | null;

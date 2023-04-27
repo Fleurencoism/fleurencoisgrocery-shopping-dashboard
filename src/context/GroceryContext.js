@@ -20,9 +20,9 @@ const GroceryContextProvider = ({children}) => {
     if (!sub){
         return;
     }
-    DataStore.query(ShoppingList, (r) => r.adminSub.eq(sub)).then(
+    /*DataStore.query(ShoppingList, (r) => r.adminSub.eq(sub)).then(
         (grocerys) => setGrocery(grocerys[0])
-    );
+    );*/
 }, [sub]);
 
    console.log(grocery);

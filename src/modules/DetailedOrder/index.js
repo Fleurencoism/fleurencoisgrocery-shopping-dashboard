@@ -1,8 +1,8 @@
-/*import { Card, Descriptions, Divider, List, Button, Tag, Spin } from 'antd';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Card, Descriptions, Divider, List, Button,Table, Popconfirm, message } from 'antd';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState, } from 'react';
 import { DataStore } from 'aws-amplify';
-import { ShoppingList } from '../../models';
+import { ShoppingList, ShoppingListItem } from '../../models';
 
 
 
@@ -10,9 +10,15 @@ const DetailedOrder = () => {
 
     const { id } = useParams();
     const [shoppinglist, setShoppingList] = useState({});
-    const [customer, setCustomer] = useState(null);
-    const [orderDishes, setShoppingListDishes] = useState([]);
-    const [finalOrderDishes, setFinalOrderDishes] = useState([]);
+    const [shoppinglisitems, setShoppinglistitems] = useState([]);
+    const [shoppinglistitem, setShoppingListItem] = useState([]);
+
+
+    useEffect(() => {
+        DataStore.query(ShoppingListItem).then(setShoppingListItem);
+    }, []);
+
+    const navigate = useNavigate();
 
     useEffect (() => {
         if (!id) {
@@ -21,93 +27,128 @@ const DetailedOrder = () => {
         DataStore.query(ShoppingList, id).then(setShoppingList);
     }, [id]);
 
+    
     useEffect (() => {
-        if (!shoppinglist?.userID) {
+        if (!shoppinglist) {
             return;
         }
-        DataStore.query(ShoppingList,shoppinglist.userID).then(setCustomer);
-    }, [shoppinglist?.userID]);
+        DataStore.query(ShoppingListItem, (od) =>
+            od.shoppinglistID.eq(shoppinglist.id)).then(setShoppinglistitems);
+    }, [shoppinglist]);
+
+    console.log(shoppinglist.id)
+
+
+    /*if (!shoppinglist) {
+        return <Spin size = 'large'/>
+    }*/
+
+    const renderNewItemButton = () =>{
+        return(
+            <Link to={'updatelist'}>
+                <Button type='primary'>Update Shopping List</Button>
+            </Link>
+        );
+    };
+
+    console.log(shoppinglisitems)
 
     
+    const tableColumns = [
+        
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        
+        {
+            title: 'Price',
+            dataIndex: 'price',
+            key: 'price',
+            render: (price) => `$${price?.toFixed(2)}`
 
-    useEffect (() => {
-        if (!orderDishes) {
-            return;
-        }
-        // Query all of the dishes.
-        const fetchDishes = async () => {
-            const dishes = await DataStore.query(ShoppingList);
-            // Assign the dishes to the order dishes where the order ids are the same.
-            setFinalOrderDishes(
-                orderDishes.map(orderDish => ({
-                    ...orderDish,
-                    Dish: dishes.find(d => d.id === orderDish.orderDishDishId),
-                }))
-            );
-        };
-        fetchDishes();
-    }, [orderDishes]);
+            
+        },
+        {
+            title: 'Quanity',
+            dataIndex: 'quanity',
+            key: 'quanity',
+            
+        },
+        {
+            title: 'Add Item',
+            key: 'action',
+            render: (_, item)=>(
+                <Popconfirm
+                placement="topLeft"
+                title={'Are you sure you want to delete this item?'}
+                onConfirm={()=>AddItem(item)}
+                okText="Yes"
+                cancelText="No"
+            >
+                <Button type="primary">Add Item</Button>
+            </Popconfirm>
+                
 
+               
+                
+                
+                ),
+            
+        },
+    ];
+    
 
+    const AddItem = async (item) => {
+        //console.log(shoppinglistitem)
+        console.log(item.id)
+        const result = await DataStore.query(ShoppingListItem,item.id);
+        console.log(result)
+        console.log(shoppinglist.id)
+        const addItem = await DataStore.save(
+            ShoppingListItem.copyOf(result, (updated) => {
+                updated.shoppinglistID = shoppinglist.id;
+               
+            })
+        );
+        setShoppingListItem(addItem);
+        message.success('Item added to the list');
+        navigate('/');
 
-    if (!shoppinglist) {
-        return <Spin size = 'large'/>
-    }
-
+    };
     return (
-        <Card title = {`Shopping List ${id}`} style = {styles.page}>
+        <Card title = {`Shopping List ${id}`} style = {styles.page} extra={renderNewItemButton()}>
             <Descriptions bordered column = {{lg: 1, md: 1, sm: 1}}>
                 <Descriptions.Item label = 'Store'>{shoppinglist?.store}</Descriptions.Item>
-                <Descriptions.Item label = 'Customer'>{customer?.name}</Descriptions.Item>
-                <Descriptions.Item label = 'Customer Address'>{customer?.address}</Descriptions.Item>
+                <Descriptions.Item label = 'Name'>{shoppinglist?.name}</Descriptions.Item>
+                <Descriptions.Item label = 'Date'>{shoppinglist?.date}</Descriptions.Item>
             </Descriptions>
             <Divider />
             <List
-                dataSource = {finalOrderDishes}
-                renderItem = {(dishItem) => (
+                dataSource = {shoppinglisitems}
+                renderItem = {(listItem) => (
                     <List.Item>
-                        <div style = {styles.dishItem}>{dishItem?.Dish?.name} x{dishItem?.quantity}</div>
-                        <div>${dishItem?.Dish?.price.toFixed(2)}</div>
+                        <div style = {styles.listItem}>{listItem?.name} x{listItem?.quantity}</div>
+                       <div>${listItem?.price}</div>
                     </List.Item>
                 )}
             >
             </List>
             <Divider />
-            <div style = {styles.totalContainer}>
+                <div style = {styles.totalContainer}>
                     <h2>Total:</h2>
                     <h2 style = {styles.totalPrice}>${shoppinglist.total && shoppinglist.total.toFixed(2)}</h2>
-            </div>
+                </div>
+            <Divider /> 
+            <Divider orientation="left">Here's items to add the shopping list</Divider>
+            <Divider/>
+            <Table 
+                dataSource={shoppinglistitem}
+                columns={tableColumns}
+            />
             <Divider />
-            <div style = {styles.buttonsContainer}>
-                    <Button
-                        block
-                        danger
-                        type = 'primary'
-                        size = 'large'
-                        style = {styles.button}
-                        onClick={declineOrder}
-                    >
-                        Decline Order
-                    </Button>
-                    <Button
-                        block
-                        type = 'primary'
-                        size = 'large'
-                        style = {styles.button}
-                        onClick = {acceptOrder}
-                    >
-                        Accept Order
-                    </Button>
-                    <Button
-                        block
-                        type = 'default'
-                        size = 'large'
-                        style = {styles.button}
-                        onClick = {foodIsDone}
-                    >
-                        Food is Done
-                    </Button>
-            </div>
+
         </Card>
     );
 };
@@ -116,7 +157,7 @@ const styles = {
     page:{
         margin: 20,
     },
-    dishItem:{
+    Item:{
         fontWeight:'bold',
     },
     totalContainer:{
@@ -136,4 +177,4 @@ const styles = {
         marginLeft: 5,
     },
 }
-export default DetailedOrder;*/
+export default DetailedOrder;

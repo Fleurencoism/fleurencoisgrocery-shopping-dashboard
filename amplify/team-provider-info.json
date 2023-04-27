@@ -1,19 +1,19 @@
 {
   "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-shoppinglist-staging-53109-authRole",
-      "UnauthRoleArn": "arn:aws:iam::911818082102:role/amplify-shoppinglist-staging-53109-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::911818082102:role/amplify-shoppinglist-staging-53109-authRole",
+      "AuthRoleName": "amplify-shoppinglistdash-staging-115856-authRole",
+      "UnauthRoleArn": "arn:aws:iam::911818082102:role/amplify-shoppinglistdash-staging-115856-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::911818082102:role/amplify-shoppinglistdash-staging-115856-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-shoppinglist-staging-53109-deployment",
-      "UnauthRoleName": "amplify-shoppinglist-staging-53109-unauthRole",
-      "StackName": "amplify-shoppinglist-staging-53109",
-      "StackId": "arn:aws:cloudformation:us-east-1:911818082102:stack/amplify-shoppinglist-staging-53109/ead0cf80-c93b-11ed-97ee-12681e1152e9",
-      "AmplifyAppId": "d9xijn9jpzjzr"
+      "DeploymentBucketName": "amplify-shoppinglistdash-staging-115856-deployment",
+      "UnauthRoleName": "amplify-shoppinglistdash-staging-115856-unauthRole",
+      "StackName": "amplify-shoppinglistdash-staging-115856",
+      "StackId": "arn:aws:cloudformation:us-east-1:911818082102:stack/amplify-shoppinglistdash-staging-115856/ba8a3940-df72-11ed-a4e9-0e0518fcc95d",
+      "AmplifyAppId": "d3t4u6w9ta21l7"
     },
     "categories": {
       "auth": {
-        "ShoppingList": {}
+        "ShoppingListDash": {}
       }
     }
   }

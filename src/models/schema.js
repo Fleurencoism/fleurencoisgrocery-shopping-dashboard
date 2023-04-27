@@ -1,101 +1,5 @@
 export const schema = {
     "models": {
-        "ShoppingList": {
-            "name": "ShoppingList",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "total": {
-                    "name": "total",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "store": {
-                    "name": "store",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "date": {
-                    "name": "date",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "shoppinglistitems": {
-                    "name": "shoppinglistitems",
-                    "isArray": true,
-                    "type": {
-                        "model": "ShoppingListItemShoppingList"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "shoppingList"
-                        ]
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "ShoppingLists",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
         "ShoppingListItem": {
             "name": "ShoppingListItem",
             "fields": {
@@ -133,22 +37,6 @@ export const schema = {
                     "type": "ID",
                     "isRequired": false,
                     "attributes": []
-                },
-                "ShoppingLists": {
-                    "name": "ShoppingLists",
-                    "isArray": true,
-                    "type": {
-                        "model": "ShoppingListItemShoppingList"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "shoppingListItem"
-                        ]
-                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -201,8 +89,8 @@ export const schema = {
                 }
             ]
         },
-        "ShoppingListItemShoppingList": {
-            "name": "ShoppingListItemShoppingList",
+        "ShoppingList": {
+            "name": "ShoppingList",
             "fields": {
                 "id": {
                     "name": "id",
@@ -211,47 +99,47 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "shoppingListId": {
-                    "name": "shoppingListId",
+                "name": {
+                    "name": "name",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "shoppingListItemId": {
-                    "name": "shoppingListItemId",
+                "store": {
+                    "name": "store",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "shoppingList": {
-                    "name": "shoppingList",
+                "total": {
+                    "name": "total",
                     "isArray": false,
-                    "type": {
-                        "model": "ShoppingList"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "shoppingListId"
-                        ]
-                    }
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
                 },
-                "shoppingListItem": {
-                    "name": "shoppingListItem",
+                "date": {
+                    "name": "date",
                     "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "ShoppingListItems": {
+                    "name": "ShoppingListItems",
+                    "isArray": true,
                     "type": {
                         "model": "ShoppingListItem"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": [],
+                    "isArrayNullable": true,
                     "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "shoppingListItemId"
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "shoppinglistID"
                         ]
                     }
                 },
@@ -273,27 +161,25 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "ShoppingListItemShoppingLists",
+            "pluralName": "ShoppingLists",
             "attributes": [
                 {
                     "type": "model",
                     "properties": {}
                 },
                 {
-                    "type": "key",
+                    "type": "auth",
                     "properties": {
-                        "name": "byShoppingList",
-                        "fields": [
-                            "shoppingListId"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byShoppingListItem",
-                        "fields": [
-                            "shoppingListItemId"
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
                         ]
                     }
                 }
@@ -303,5 +189,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.6",
-    "version": "1b7aa70bb77c8ee3a4a9e5990f372a05"
+    "version": "97266d7b0c0405b4a88fc731ed6eee91"
 };

@@ -33,6 +33,12 @@ const Lists = () => {
     
     const tableColumns = [
         {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+
+        },
+        {
             title: 'Store',
             dataIndex: 'store',
             key: 'store',
@@ -43,14 +49,7 @@ const Lists = () => {
             dataIndex: 'date',
             key: 'date',
 
-        },
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-
-        },
-        
+        },  
     ];
 
     const renderNewItemButton = () =>{

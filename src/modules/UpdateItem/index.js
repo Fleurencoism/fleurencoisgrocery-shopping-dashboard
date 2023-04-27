@@ -2,42 +2,41 @@ import { Card, Input, Button, message, Form, Popconfirm } from "antd";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { DataStore } from 'aws-amplify';
-import { ShoppingList } from '../../models';
+import { ShoppingListItem } from '../../models';
 
 
-const Update = () => {
+const UpdateItem = () => {
 
     const { id } = useParams();
 
-    const [shoppinglist, setShoppingList] = useState();
+    const [shoppingListItem, setShoppingListItem] = useState();
     const [name, setName,] = useState('');
-    const [store, setStore,] = useState(0);
-    const [date, setDate,] = useState(0);
+    const [price, setPrice,] = useState(0);
+    const [quanity, setQuanity,] = useState(0);
 
     const navigate = useNavigate(); 
-
 
     useEffect(() => {
         if (!id) {
             return;
         }
-        DataStore.query(ShoppingList, id).then(setShoppingList);
+        DataStore.query(ShoppingListItem, id).then(setShoppingListItem);
 
     }, [id]);
 
     useEffect(() => {
-        if (!shoppinglist) {
+        if (!shoppingListItem) {
             return;
         }
-        setName(shoppinglist.name);
-        setStore(shoppinglist.price);
-        setDate(shoppinglist.date);
-    }, [shoppinglist]);
+        setName(shoppingListItem.name);
+        setPrice(shoppingListItem.price);
+        setQuanity(shoppingListItem.quanity);
+    }, [shoppingListItem]);
 
     const deleteData = async () => {
-        DataStore.delete(ShoppingList, id).then(setShoppingList);
-        message.success('Shopping list has been deleted.');
-        navigate('/');
+        DataStore.delete(ShoppingListItem, id).then(setShoppingListItem);
+        message.success('Item has been deleted.');
+        navigate('/grocery');
     };
 
 
@@ -46,31 +45,31 @@ const Update = () => {
             message.error('Name required!');
             return;
         }
-        if (!store){
-            message.error('Store required!');
+        if (!price){
+            message.error('Price required!');
             return;
         }
-        if (!date){
-            message.error('Date required!');
+        if (!quanity){
+            message.error('Quanity required!');
             return;
         }
 
-        const updateShoppingList = await DataStore.save(
-            ShoppingList.copyOf(shoppinglist, (updated) => {
+        const updateshoppingListItem = await DataStore.save(
+            ShoppingListItem.copyOf(shoppingListItem, (updated) => {
                     updated.name = name;
-                    updated.store = store;
-                    updated.date = date;
+                    updated.price = parseFloat(price);
+                    updated.quanity = parseInt(quanity);
                 })
             );
-            setShoppingList(updateShoppingList);
-            message.success('Shopping list updated!');
-            navigate('/');
+            setShoppingListItem(updateshoppingListItem);
+            message.success('Item updated!');
+            navigate('/grocery');
         };
 
     
 
     return (
-        <Card title={`Update Shopping List`} style={styles.page}>
+        <Card title={`Update item`} style={styles.page}>
             <Form layout="vertical">
                 <Form.Item label={'Name'} required >
                     <Input 
@@ -78,16 +77,16 @@ const Update = () => {
                     onChange={(e) => setName(e.target.value)}
                     />
                 </Form.Item>                
-                <Form.Item label={'Store'} required >
+                <Form.Item label={'Price'} required >
                     <Input 
-                    value={store}
-                    onChange={(e) => setStore(e.target.value)}
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                     />
                 </Form.Item>
-                <Form.Item label={'Date'} required >
+                <Form.Item label={'Quanity'} required >
                     <Input 
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
+                    value={quanity}
+                    onChange={(e) => setQuanity(e.target.value)}
                     />
                 </Form.Item>
                 <Form.Item>
@@ -96,7 +95,7 @@ const Update = () => {
                 <Form.Item>
                 <Popconfirm
                     placement="topLeft"
-                    title={'Are you sure you want to delete this shopping list?'}
+                    title={'Are you sure you want to delete this item?'}
                     onConfirm={deleteData}
                     okText="Yes"
                     cancelText="No"
@@ -116,4 +115,4 @@ const styles = {
 }
 
 
-export default Update;
+export default UpdateItem;

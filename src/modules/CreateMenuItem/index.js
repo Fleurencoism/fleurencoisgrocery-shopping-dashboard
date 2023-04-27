@@ -1,5 +1,7 @@
 import { Card, Input, Button, message, Form } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import {  useNavigate } from 'react-router-dom';
+
 import { DataStore } from "aws-amplify";
 import { ShoppingListItem } from "../../models";
 
@@ -10,6 +12,7 @@ const CreateMenuItem = () => {
     const [quanity, setQuanity,] = useState('');
     const [shoppinglistitem, setShoppingListItem] = useState();
 
+    const navigate = useNavigate();
 
     const onFinish = async () => {
         if (!name){
@@ -35,6 +38,7 @@ const CreateMenuItem = () => {
         }));
         setShoppingListItem(newItem);
         message.success('New Item Created');
+        navigate('/grocery');
     };
 
     return (

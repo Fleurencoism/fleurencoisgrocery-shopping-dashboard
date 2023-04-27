@@ -5,7 +5,7 @@
  **************************************************************************/
 
 export { default as studioTheme } from "./studioTheme";
-export { default as ShoppingListCreateForm } from "./ShoppingListCreateForm";
-export { default as ShoppingListUpdateForm } from "./ShoppingListUpdateForm";
 export { default as ShoppingListItemCreateForm } from "./ShoppingListItemCreateForm";
 export { default as ShoppingListItemUpdateForm } from "./ShoppingListItemUpdateForm";
+export { default as ShoppingListCreateForm } from "./ShoppingListCreateForm";
+export { default as ShoppingListUpdateForm } from "./ShoppingListUpdateForm";

@@ -1,5 +1,7 @@
 import { Card, Input, Button, message, Form } from "antd";
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
+
 import { DataStore } from "aws-amplify";
 import { ShoppingList } from "../../models";
 
@@ -9,7 +11,8 @@ const CreateShoppingList = () => {
     const [store, setStore,] = useState('');
     const [date, setDate,] = useState('');
     const [shoppinglist, setShoppingList] = useState();
-
+ 
+    const navigate = useNavigate();
 
     const onFinish = async () => {
         if (!name){
@@ -35,6 +38,7 @@ const CreateShoppingList = () => {
         }));
         setShoppingList(newList);
         message.success('New List Created');
+        navigate('/');
     };
 
     return (
@@ -57,13 +61,13 @@ const CreateShoppingList = () => {
                 </Form.Item>
                 <Form.Item label={'Date'} required >
                     <Input 
-                    placeholder="Enter Date"
+                    placeholder="Enter Date YYYY-MM-DD"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     />
                 </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" onClick={createNewShoppingList}>Submit</Button>
+                <Form.Item>                    
+                    <Button type="primary" htmlType="submit" onClick={createNewShoppingList}>Submit</Button>                    
                 </Form.Item>
             </Form>
         </Card>

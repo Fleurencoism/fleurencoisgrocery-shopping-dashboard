@@ -26,27 +26,21 @@ export default function ShoppingListItemCreateForm(props) {
     name: "",
     price: "",
     quanity: "",
-    shoppinglistID: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [price, setPrice] = React.useState(initialValues.price);
   const [quanity, setQuanity] = React.useState(initialValues.quanity);
-  const [shoppinglistID, setShoppinglistID] = React.useState(
-    initialValues.shoppinglistID
-  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
     setPrice(initialValues.price);
     setQuanity(initialValues.quanity);
-    setShoppinglistID(initialValues.shoppinglistID);
     setErrors({});
   };
   const validations = {
     name: [],
     price: [],
     quanity: [],
-    shoppinglistID: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -77,7 +71,6 @@ export default function ShoppingListItemCreateForm(props) {
           name,
           price,
           quanity,
-          shoppinglistID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -135,7 +128,6 @@ export default function ShoppingListItemCreateForm(props) {
               name: value,
               price,
               quanity,
-              shoppinglistID,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -166,7 +158,6 @@ export default function ShoppingListItemCreateForm(props) {
               name,
               price: value,
               quanity,
-              shoppinglistID,
             };
             const result = onChange(modelFields);
             value = result?.price ?? value;
@@ -197,7 +188,6 @@ export default function ShoppingListItemCreateForm(props) {
               name,
               price,
               quanity: value,
-              shoppinglistID,
             };
             const result = onChange(modelFields);
             value = result?.quanity ?? value;
@@ -211,33 +201,6 @@ export default function ShoppingListItemCreateForm(props) {
         errorMessage={errors.quanity?.errorMessage}
         hasError={errors.quanity?.hasError}
         {...getOverrideProps(overrides, "quanity")}
-      ></TextField>
-      <TextField
-        label="Shoppinglist id"
-        isRequired={false}
-        isReadOnly={false}
-        value={shoppinglistID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              price,
-              quanity,
-              shoppinglistID: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.shoppinglistID ?? value;
-          }
-          if (errors.shoppinglistID?.hasError) {
-            runValidationTasks("shoppinglistID", value);
-          }
-          setShoppinglistID(value);
-        }}
-        onBlur={() => runValidationTasks("shoppinglistID", shoppinglistID)}
-        errorMessage={errors.shoppinglistID?.errorMessage}
-        hasError={errors.shoppinglistID?.hasError}
-        {...getOverrideProps(overrides, "shoppinglistID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -19,11 +19,7 @@ const GroceryMenu = () => {
     const navigate = useNavigate();
 
     const tableColumns = [
-        {
-            title: 'Id',
-            dataIndex: 'id',
-            key: 'id',
-        },
+        
         {
             title: 'Name',
             dataIndex: 'name',
@@ -34,7 +30,8 @@ const GroceryMenu = () => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
-            
+            render: (price) => `$${price?.toFixed(2)}`
+
             
         },
         {
@@ -47,7 +44,7 @@ const GroceryMenu = () => {
     const renderNewItemButton = () =>{
         return(
             <Link to={'create'}>
-                <Button type='primary'>Add New Item</Button>
+                <Button type='primary'>Create New Item</Button>
             </Link>
         );
     };
@@ -60,7 +57,7 @@ const GroceryMenu = () => {
                 columns={tableColumns}
                 rowKey='id'
                 onRow={(item) => ({
-                    onClick: () => navigate(`list/${item.id}`)
+                    onClick: () => navigate(`item/${item.id}`)
                 })}
             />
         </Card>

@@ -24,24 +24,24 @@ export default function ShoppingListUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    total: "",
-    store: "",
-    date: "",
     name: "",
+    store: "",
+    total: "",
+    date: "",
   };
-  const [total, setTotal] = React.useState(initialValues.total);
-  const [store, setStore] = React.useState(initialValues.store);
-  const [date, setDate] = React.useState(initialValues.date);
   const [name, setName] = React.useState(initialValues.name);
+  const [store, setStore] = React.useState(initialValues.store);
+  const [total, setTotal] = React.useState(initialValues.total);
+  const [date, setDate] = React.useState(initialValues.date);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = shoppingListRecord
       ? { ...initialValues, ...shoppingListRecord }
       : initialValues;
-    setTotal(cleanValues.total);
-    setStore(cleanValues.store);
-    setDate(cleanValues.date);
     setName(cleanValues.name);
+    setStore(cleanValues.store);
+    setTotal(cleanValues.total);
+    setDate(cleanValues.date);
     setErrors({});
   };
   const [shoppingListRecord, setShoppingListRecord] =
@@ -57,10 +57,10 @@ export default function ShoppingListUpdateForm(props) {
   }, [idProp, shoppingList]);
   React.useEffect(resetStateValues, [shoppingListRecord]);
   const validations = {
-    total: [],
-    store: [],
-    date: [],
     name: [],
+    store: [],
+    total: [],
+    date: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -88,10 +88,10 @@ export default function ShoppingListUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          total,
-          store,
-          date,
           name,
+          store,
+          total,
+          date,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -139,35 +139,31 @@ export default function ShoppingListUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Total"
+        label="Name"
         isRequired={false}
         isReadOnly={false}
-        type="number"
-        step="any"
-        value={total}
+        value={name}
         onChange={(e) => {
-          let value = isNaN(parseFloat(e.target.value))
-            ? e.target.value
-            : parseFloat(e.target.value);
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              total: value,
+              name: value,
               store,
+              total,
               date,
-              name,
             };
             const result = onChange(modelFields);
-            value = result?.total ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.total?.hasError) {
-            runValidationTasks("total", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setTotal(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("total", total)}
-        errorMessage={errors.total?.errorMessage}
-        hasError={errors.total?.hasError}
-        {...getOverrideProps(overrides, "total")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
         label="Store"
@@ -178,10 +174,10 @@ export default function ShoppingListUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              total,
-              store: value,
-              date,
               name,
+              store: value,
+              total,
+              date,
             };
             const result = onChange(modelFields);
             value = result?.store ?? value;
@@ -197,6 +193,37 @@ export default function ShoppingListUpdateForm(props) {
         {...getOverrideProps(overrides, "store")}
       ></TextField>
       <TextField
+        label="Total"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={total}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              name,
+              store,
+              total: value,
+              date,
+            };
+            const result = onChange(modelFields);
+            value = result?.total ?? value;
+          }
+          if (errors.total?.hasError) {
+            runValidationTasks("total", value);
+          }
+          setTotal(value);
+        }}
+        onBlur={() => runValidationTasks("total", total)}
+        errorMessage={errors.total?.errorMessage}
+        hasError={errors.total?.hasError}
+        {...getOverrideProps(overrides, "total")}
+      ></TextField>
+      <TextField
         label="Date"
         isRequired={false}
         isReadOnly={false}
@@ -206,10 +233,10 @@ export default function ShoppingListUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              total,
-              store,
-              date: value,
               name,
+              store,
+              total,
+              date: value,
             };
             const result = onChange(modelFields);
             value = result?.date ?? value;
@@ -223,33 +250,6 @@ export default function ShoppingListUpdateForm(props) {
         errorMessage={errors.date?.errorMessage}
         hasError={errors.date?.hasError}
         {...getOverrideProps(overrides, "date")}
-      ></TextField>
-      <TextField
-        label="Name"
-        isRequired={false}
-        isReadOnly={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              total,
-              store,
-              date,
-              name: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <Flex
         justifyContent="space-between"

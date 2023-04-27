@@ -16,13 +16,11 @@ export declare type ShoppingListItemCreateFormInputValues = {
     name?: string;
     price?: number;
     quanity?: number;
-    shoppinglistID?: string;
 };
 export declare type ShoppingListItemCreateFormValidationValues = {
     name?: ValidationFunction<string>;
     price?: ValidationFunction<number>;
     quanity?: ValidationFunction<number>;
-    shoppinglistID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ShoppingListItemCreateFormOverridesProps = {
@@ -30,7 +28,6 @@ export declare type ShoppingListItemCreateFormOverridesProps = {
     name?: PrimitiveOverrideProps<TextFieldProps>;
     price?: PrimitiveOverrideProps<TextFieldProps>;
     quanity?: PrimitiveOverrideProps<TextFieldProps>;
-    shoppinglistID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ShoppingListItemCreateFormProps = React.PropsWithChildren<{
     overrides?: ShoppingListItemCreateFormOverridesProps | undefined | null;
