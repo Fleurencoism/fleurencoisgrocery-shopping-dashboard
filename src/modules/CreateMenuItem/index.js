@@ -14,7 +14,9 @@ const CreateMenuItem = () => {
 
     const navigate = useNavigate();
 
-    const onFinish = async () => {
+    
+
+    const createNewItem = async () => {
         if (!name){
             message.error('Name required!');
             return;
@@ -27,10 +29,6 @@ const CreateMenuItem = () => {
             message.error('Quanity required!');
             return;
         }
-
-    };
-
-    const createNewItem = async () => {
         const newItem = DataStore.save(new ShoppingListItem({
             name,
             price: parseFloat(price),
@@ -43,7 +41,7 @@ const CreateMenuItem = () => {
 
     return (
         <Card title={'Enter new item'} style={styles.page}>
-            <Form layout="vertical" onFinish={onFinish}>
+            <Form layout="vertical" onFinish={createNewItem}>
                 <Form.Item label={'Name'} required >
                     <Input 
                     placeholder="Enter Name"
@@ -54,7 +52,7 @@ const CreateMenuItem = () => {
                 
                 <Form.Item label={'Price'} required >
                     <Input 
-                    placeholder="Enter Item Price"
+                    placeholder="Enter Price"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     />
